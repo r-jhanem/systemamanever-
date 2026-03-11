@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ever Health - إيفر</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cairo for a modern Arabic look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+      body {
+        font-family: 'Cairo', sans-serif;
+        background-color: #f3f4f6; /* Slate-100 */
+        transition: filter 0.3s ease;
+      }
+      /* Hide scrollbar for clean UI */
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      
+      /* Accessibility: Font Scaling */
+      html {
+        transition: font-size 0.2s ease;
+      }
+      /* Default Tailwind is usually 16px (1rem). We scale the root which scales rem units */
+      
+      /* Accessibility: High Contrast */
+      .high-contrast-mode {
+        filter: contrast(1.3) saturate(1.1);
+        background-color: #fff; /* Ensure base is white for filter to work best */
+      }
+      
+      .high-contrast-mode img {
+        filter: contrast(0.8); /* Prevent images from getting too harsh */
+      }
+
+      /* Accessibility: Focus Indicators */
+      *:focus-visible {
+        outline: 3px solid #facc15 !important;
+        outline-offset: 2px;
+      }
+
+      /* Infinite Marquee Animation (Right to Left visually in LTR, but moving right in RTL context logic) */
+      @keyframes marquee-right {
+        0% { transform: translateX(-50%); }
+        100% { transform: translateX(0%); }
+      }
+      
+      .animate-marquee-right {
+        display: flex;
+        width: max-content;
+        animation: marquee-right 30s linear infinite;
+      }
+      
+      .animate-marquee-right:hover {
+        animation-play-state: paused;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.39.0",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
