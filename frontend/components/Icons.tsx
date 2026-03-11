@@ -198,6 +198,7 @@ export const Icons = {
   AlertTriangle,
   Dumbbell,
   Scissors,
-  Filter,
-  Sliders
+   Filter,
+  Sliders,
+  LogoIcon
 };

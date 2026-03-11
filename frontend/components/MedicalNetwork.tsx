@@ -58,6 +58,8 @@ const MedicalNetwork: React.FC<MedicalNetworkProps> = ({ onBack }) => {
 
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [selectedCity, setSelectedCity] = useState('الكل');
+    const [isCitySelectionOpen, setIsCitySelectionOpen] = useState(false);
+    const [citySearchQuery, setCitySearchQuery] = useState('');
 
     // Booking State
     const [isBookingOpen, setIsBookingOpen] = useState(false);
@@ -99,6 +101,17 @@ const MedicalNetwork: React.FC<MedicalNetworkProps> = ({ onBack }) => {
         { id: 'أنقرة', name: 'أنقرة', country: 'TR', image: 'https://images.unsplash.com/photo-1542612140-1658b4317181?q=80&w=2069&auto=format&fit=crop' },
         { id: 'عمان', name: 'عمان', country: 'JO', image: 'https://images.unsplash.com/photo-1548115184-bc6544d06a58?q=80&w=2070&auto=format&fit=crop' },
     ];
+
+    // Cities Data
+    const citiesByRegion: { [key: string]: string[] } = {
+        'المنطقة الشرقية': ['الدمام', 'الخبر', 'الجبيل', 'الأحساء', 'القطيف', 'حفر الباطن', 'الخفجي', 'راس تنورة'],
+        'الرياض': ['الرياض', 'الخرج', 'الدرعية', 'المجمعة', 'الدوادمي'],
+        'مكة المكرمة': ['مكة المكرمة', 'جدة', 'الطائف', 'القنفذة'],
+        'المدينة المنورة': ['المدينة المنورة', 'ينبع', 'العلا'],
+        'القصيم': ['بريدة', 'عنيزة', 'الرس'],
+        'عسير': ['أبها', 'خميس مشيط', 'بيشة'],
+        'تبوك': ['تبوك', 'أملج', 'ضبا'],
+    };
 
     // Category Filters
     const filters = [
@@ -1086,7 +1099,11 @@ const MedicalNetwork: React.FC<MedicalNetworkProps> = ({ onBack }) => {
                                 key={region.id}
                                 onClick={() => {
                                     setSelectedRegion(region.id);
-                                    setIsRegionSelectionOpen(false);
+                                    if (region.id !== 'الكل' && citiesByRegion[region.id]) {
+                                        setIsCitySelectionOpen(true);
+                                    } else {
+                                        setIsRegionSelectionOpen(false);
+                                    }
                                 }}
                                 className={`relative h-44 rounded-3xl overflow-hidden shadow-sm group active:scale-95 transition-all border-2 ${selectedRegion === region.id ? 'border-[#0C5A5D] shadow-lg ring-4 ring-[#0C5A5D]/10' : 'border-transparent'}`}
                             >
@@ -1105,6 +1122,81 @@ const MedicalNetwork: React.FC<MedicalNetworkProps> = ({ onBack }) => {
                         ))}
                     </div>
                 </div>
+            </div>
+        );
+    };
+
+    // --- CITY SELECTION OVERLAY ---
+    const renderCitySelection = () => {
+        if (!isCitySelectionOpen) return null;
+
+        const availableCities = citiesByRegion[selectedRegion] || [];
+        const filteredCities = availableCities.filter(city => 
+            city.includes(citySearchQuery)
+        );
+
+        return (
+            <div className="fixed inset-0 z-[80] bg-gray-50 flex flex-col animate-fade-in w-full max-w-md mx-auto shadow-2xl">
+                {/* Header Style matching mockup */}
+                <div className="bg-gradient-to-b from-[#0C5A5D] to-[#147a7e] text-white pt-12 pb-8 px-5 rounded-b-[2.5rem] shadow-xl relative overflow-hidden">
+                    <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+                        <Icons.LogoIcon />
+                    </div>
+                    
+                    <div className="flex items-center justify-between mb-8 relative z-10">
+                        <button onClick={() => setIsCitySelectionOpen(false)} className="bg-white/20 p-2.5 rounded-full hover:bg-white/30 transition-all active:scale-95">
+                            <Icons.ArrowRight size={22} />
+                        </button>
+                        <h2 className="text-xl font-black">{selectedRegion}</h2>
+                        <div className="w-10"></div>
+                    </div>
+
+                    {/* Search Bar in Header */}
+                    <div className="bg-white rounded-2xl flex items-center px-4 py-3 shadow-inner relative z-10 text-right" dir="rtl">
+                        <Icons.Search className="text-gray-300 ml-3 shrink-0" size={18} />
+                        <input 
+                            type="text" 
+                            placeholder="بحث بواسطة : المدينة" 
+                            value={citySearchQuery}
+                            onChange={(e) => setCitySearchQuery(e.target.value)}
+                            className="bg-transparent border-none outline-none text-gray-800 text-xs font-bold w-full placeholder-gray-300 text-right pr-2"
+                        />
+                        <button className="bg-[#0C5A5D]/10 p-1.5 rounded-lg text-[#0C5A5D] shrink-0">
+                            <Icons.Filter size={14} />
+                        </button>
+                    </div>
+                </div>
+
+                <div className="flex-1 overflow-y-auto px-5 pt-8 pb-24">
+                    <div className="grid grid-cols-2 gap-4">
+                        {filteredCities.length > 0 ? (
+                            filteredCities.map((city) => (
+                                <button
+                                    key={city}
+                                    onClick={() => {
+                                        setSelectedCity(city);
+                                        setIsCitySelectionOpen(false);
+                                        setIsRegionSelectionOpen(false);
+                                    }}
+                                    className={`bg-white rounded-[2rem] p-6 flex flex-col items-center justify-center gap-4 transition-all duration-300 border-2 ${selectedCity === city ? 'border-[#0C5A5D] bg-[#0C5A5D]/5 shadow-lg ring-4 ring-[#0C5A5D]/5' : 'border-gray-50 shadow-sm hover:shadow-md'}`}
+                                >
+                                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-colors ${selectedCity === city ? 'bg-[#0C5A5D] text-white' : 'bg-[#0C5A5D]/5 text-[#0C5A5D]'}`}>
+                                        <Icons.MapPin size={24} />
+                                    </div>
+                                    <span className={`text-sm font-black transition-colors ${selectedCity === city ? 'text-[#0C5A5D]' : 'text-gray-700'}`}>{city}</span>
+                                </button>
+                            ))
+                        ) : (
+                            <div className="col-span-2 text-center py-20 opacity-50">
+                                <Icons.Search size={40} className="mx-auto mb-4 text-gray-300" />
+                                <p className="text-sm font-bold">لا توجد مدن تطابق بحثك</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Bottom padding for safety */}
+                <div className="fixed bottom-0 left-0 w-full h-8 bg-gradient-to-t from-gray-50 to-transparent pointer-events-none"></div>
             </div>
         );
     };
@@ -1980,6 +2072,7 @@ const MedicalNetwork: React.FC<MedicalNetworkProps> = ({ onBack }) => {
                 </div>
             )}
             {renderRegionSelection()}
+            {renderCitySelection()}
             {renderFilterOverlay()}
             {renderBookingWizard()}
         </div>
