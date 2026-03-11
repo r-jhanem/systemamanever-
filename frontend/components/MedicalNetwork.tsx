@@ -56,6 +56,9 @@ const MedicalNetwork: React.FC<MedicalNetworkProps> = ({ onBack }) => {
     const [selectedFacility, setSelectedFacility] = useState<Facility | null>(null);
     const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
 
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
+    const [selectedCity, setSelectedCity] = useState('الكل');
+
     // Booking State
     const [isBookingOpen, setIsBookingOpen] = useState(false);
     const [bookingStep, setBookingStep] = useState(1); // 1: Specialty, 2: Doctor, 3: DateTime, 4: Payment, 5: Confirmation, 6: Success
@@ -1106,6 +1109,147 @@ const MedicalNetwork: React.FC<MedicalNetworkProps> = ({ onBack }) => {
         );
     };
 
+    // --- FILTER OVERLAY (BOTTOM SHEET) ---
+    const renderFilterOverlay = () => {
+        if (!isFilterOpen) return null;
+
+        return (
+            <div className="fixed inset-0 z-[100] bg-black/40 backdrop-blur-sm flex items-end justify-center animate-fade-in" onClick={() => setIsFilterOpen(false)}>
+                <div 
+                    className="bg-white w-full max-w-md rounded-t-[2.5rem] p-6 pb-12 animate-slide-up shadow-2xl relative" 
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    {/* Handle */}
+                    <div className="w-16 h-1.5 bg-gray-200 rounded-full mx-auto mb-6"></div>
+
+                    <div className="flex items-center justify-between mb-8">
+                        <div className="flex items-center gap-3">
+                            <div className="bg-[#0C5A5D]/10 p-2 rounded-xl text-[#0C5A5D]">
+                                <Icons.Sliders size={20} />
+                            </div>
+                            <h3 className="text-xl font-black text-gray-800">تصفية بواسطة :</h3>
+                        </div>
+                        <button onClick={() => setIsFilterOpen(false)} className="bg-gray-100 p-2 rounded-full text-gray-400 hover:text-gray-800 transition-colors">
+                            <Icons.X size={18} />
+                        </button>
+                    </div>
+
+                    <div className="space-y-5">
+                        {/* Country */}
+                        <div>
+                            <label className="block text-xs font-black text-gray-400 mb-2 mr-1">الدولة</label>
+                            <div className="relative group">
+                                <select 
+                                    value={selectedCountry}
+                                    onChange={(e) => setSelectedCountry(e.target.value)}
+                                    className="w-full bg-white border border-gray-100 p-4 pr-12 rounded-3xl text-sm font-bold appearance-none shadow-sm focus:border-[#0C5A5D] focus:ring-4 focus:ring-[#0C5A5D]/5 transition-all outline-none"
+                                >
+                                    {countries.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                                </select>
+                                <Icons.Globe className="absolute right-4 top-1/2 -translate-y-1/2 text-[#0C5A5D]" size={18} />
+                                <Icons.ChevronDown className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300" size={16} />
+                            </div>
+                        </div>
+
+                        {/* Region */}
+                        <div>
+                            <label className="block text-xs font-black text-gray-400 mb-2 mr-1">المنطقة</label>
+                            <div className="relative group">
+                                <select 
+                                    value={selectedRegion}
+                                    onChange={(e) => setSelectedRegion(e.target.value)}
+                                    className="w-full bg-white border border-gray-100 p-4 pr-12 rounded-3xl text-sm font-bold appearance-none shadow-sm focus:border-[#0C5A5D] focus:ring-4 focus:ring-[#0C5A5D]/5 transition-all outline-none"
+                                >
+                                    <option value="الكل">الكل</option>
+                                    {regions.filter(r => r.country === selectedCountry).map(r => <option key={r.id} value={r.id}>{r.name}</option>)}
+                                </select>
+                                <Icons.MapPin className="absolute right-4 top-1/2 -translate-y-1/2 text-[#0C5A5D]" size={18} />
+                                <Icons.ChevronDown className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300" size={16} />
+                            </div>
+                        </div>
+
+                        {/* City */}
+                        <div>
+                            <label className="block text-xs font-black text-gray-400 mb-2 mr-1">المدينة</label>
+                            <div className="relative group">
+                                <select 
+                                    className="w-full bg-white border border-gray-100 p-4 pr-12 rounded-3xl text-sm font-bold appearance-none shadow-sm focus:border-[#0C5A5D] focus:ring-4 focus:ring-[#0C5A5D]/5 transition-all outline-none"
+                                >
+                                    <option>اختيار المدينة</option>
+                                    <option>الرياض</option>
+                                    <option>جدة</option>
+                                    <option>الدمام</option>
+                                </select>
+                                <Icons.Building2 className="absolute right-4 top-1/2 -translate-y-1/2 text-[#0C5A5D]" size={18} />
+                                <Icons.ChevronDown className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300" size={16} />
+                            </div>
+                        </div>
+
+                        {/* Closest to me toggle */}
+                        <div className="bg-gray-50/50 border border-gray-100 p-5 rounded-[2.5rem] flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <div className="bg-white p-2 rounded-xl text-[#0C5A5D] shadow-sm">
+                                    <Icons.Activity size={18} />
+                                </div>
+                                <div>
+                                    <span className="block text-sm font-black text-gray-800">الأقرب إلي</span>
+                                    <p className="text-[10px] text-gray-400 font-bold">اعرض المنشآت الأقرب إلى موقعي الحالي.</p>
+                                </div>
+                            </div>
+                            <div 
+                                onClick={() => setSortBy(sortBy === 'distance' ? 'default' : 'distance')}
+                                className={`w-12 h-6 rounded-full p-1 cursor-pointer transition-colors duration-300 ${sortBy === 'distance' ? 'bg-[#0C5A5D]' : 'bg-gray-200'}`}
+                            >
+                                <div className={`w-4 h-4 bg-white rounded-full shadow-sm transition-transform duration-300 ${sortBy === 'distance' ? '-translate-x-6' : 'translate-x-0'}`}></div>
+                            </div>
+                        </div>
+
+                        {/* Sort Order */}
+                        <div>
+                            <label className="block text-xs font-black text-gray-400 mb-2 mr-1">ترتيب حسب</label>
+                            <div className="relative group">
+                                <select 
+                                    value={sortBy}
+                                    onChange={(e) => setSortBy(e.target.value as any)}
+                                    className="w-full bg-white border border-gray-100 p-4 pr-12 rounded-3xl text-sm font-bold appearance-none shadow-sm focus:border-[#0C5A5D] focus:ring-4 focus:ring-[#0C5A5D]/5 transition-all outline-none"
+                                >
+                                    <option value="newest">الأحدث أولاً</option>
+                                    <option value="rating">الأعلى تقييماً</option>
+                                    <option value="distance">الأقرب مسافة</option>
+                                    <option value="default">الافتراضي</option>
+                                </select>
+                                <Icons.Sliders className="absolute right-4 top-1/2 -translate-y-1/2 text-[#0C5A5D]" size={18} />
+                                <Icons.ChevronDown className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300" size={16} />
+                            </div>
+                        </div>
+
+                        {/* Specialty */}
+                        <div>
+                            <label className="block text-xs font-black text-gray-400 mb-2 mr-1">التخصص</label>
+                            <div className="relative group">
+                                <select 
+                                    className="w-full bg-white border border-gray-100 p-4 pr-12 rounded-3xl text-sm font-bold appearance-none shadow-sm focus:border-[#0C5A5D] focus:ring-4 focus:ring-[#0C5A5D]/5 transition-all outline-none"
+                                >
+                                    <option>اختر التخصص</option>
+                                    {doctorFilters.map(cat => <option key={cat.id}>{cat.label}</option>)}
+                                </select>
+                                <Icons.PlusCircle className="absolute right-4 top-1/2 -translate-y-1/2 text-[#0C5A5D]" size={18} />
+                                <Icons.ChevronDown className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300" size={16} />
+                            </div>
+                        </div>
+                    </div>
+
+                    <button 
+                        onClick={() => setIsFilterOpen(false)}
+                        className="w-full bg-[#0C5A5D] text-white py-4 rounded-3xl font-black mt-8 shadow-lg shadow-[#0C5A5D]/20 active:scale-95 transition-all"
+                    >
+                        تطبيق الفلاتر
+                    </button>
+                </div>
+            </div>
+        );
+    };
+
     // --- DOCTOR DETAILS VIEW COMPONENT ---
     if (selectedDoctor) {
         return (
@@ -1351,7 +1495,10 @@ const MedicalNetwork: React.FC<MedicalNetworkProps> = ({ onBack }) => {
                                     className="w-full bg-transparent text-xs font-bold text-gray-800 placeholder-gray-500 focus:outline-none min-w-0"
                                 />
                             </div>
-                            <button className="bg-[#0C5A5D] text-white p-2 rounded-full hover:bg-[#0a484b] transition-colors shadow-sm active:scale-95 shrink-0">
+                            <button 
+                                onClick={() => setIsFilterOpen(true)}
+                                className="bg-[#0C5A5D] text-white p-2 rounded-full hover:bg-[#0a484b] transition-colors shadow-sm active:scale-95 shrink-0"
+                            >
                                 <Icons.Filter className="w-4 h-4" />
                             </button>
                         </div>
@@ -1833,6 +1980,7 @@ const MedicalNetwork: React.FC<MedicalNetworkProps> = ({ onBack }) => {
                 </div>
             )}
             {renderRegionSelection()}
+            {renderFilterOverlay()}
             {renderBookingWizard()}
         </div>
     );
