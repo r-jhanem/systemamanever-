@@ -88,7 +88,8 @@ import {
   Dumbbell,
   Scissors,
   Filter,
-  Sliders
+  Sliders,
+  FlaskConical
 } from 'lucide-react';
 
 export const LogoIcon = () => (
@@ -198,7 +199,8 @@ export const Icons = {
   AlertTriangle,
   Dumbbell,
   Scissors,
-   Filter,
+  Filter,
   Sliders,
-  LogoIcon
+  LogoIcon,
+  FlaskConical
 };

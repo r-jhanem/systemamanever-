@@ -121,6 +121,7 @@ const MedicalNetwork: React.FC<MedicalNetworkProps> = ({ onBack }) => {
         { id: 'dental', label: 'أسنان', icon: <Icons.Smile size={16} /> },
         { id: 'physio', label: 'العلاج الطبيعي والتأهيل', icon: <Icons.HeartPulse size={16} /> },
         { id: 'radiology', label: 'قسم الأشعة', icon: <Icons.Activity size={16} /> },
+        { id: 'labs', label: 'قسم المختبرات', icon: <Icons.FlaskConical size={16} /> },
         { id: 'pharmacy', label: 'صيدليات', icon: <Icons.Pill size={16} /> },
     ];
 
@@ -136,6 +137,7 @@ const MedicalNetwork: React.FC<MedicalNetworkProps> = ({ onBack }) => {
         { id: 'ortho', label: 'عظام', icon: <Icons.Bone size={16} /> },
         { id: 'physio', label: 'العلاج الطبيعي والتأهيل', icon: <Icons.Activity size={16} /> },
         { id: 'radiology', label: 'قسم الأشعة', icon: <Icons.Activity size={16} /> },
+        { id: 'labs', label: 'قسم المختبرات', icon: <Icons.FlaskConical size={16} /> },
     ];
 
     // Mock Doctors Data
