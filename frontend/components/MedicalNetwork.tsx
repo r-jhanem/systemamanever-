@@ -1055,7 +1055,7 @@ const MedicalNetwork: React.FC<MedicalNetworkProps> = ({ onBack }) => {
                         <h2 className="text-xl font-black">اختيار المنطقة</h2>
                         <div className="w-10"></div>
                     </div>
-                    
+
                     {/* Country Tabs */}
                     <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2">
                         {countries.map(country => (
@@ -1470,7 +1470,7 @@ const MedicalNetwork: React.FC<MedicalNetworkProps> = ({ onBack }) => {
 
                 {/* Region Selector */}
                 <div className="px-5 py-2">
-                    <button 
+                    <button
                         onClick={() => setIsRegionSelectionOpen(true)}
                         className="w-full bg-white p-3 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between relative group hover:border-[#0C5A5D]/30 transition-colors text-right"
                     >
@@ -1615,18 +1615,39 @@ const MedicalNetwork: React.FC<MedicalNetworkProps> = ({ onBack }) => {
                                     </div>
 
                                     {/* Action Buttons Row */}
-                                    <div className="mt-4 pt-3 border-t border-gray-50 grid grid-cols-4 gap-2">
-                                        <button className="col-span-2 bg-[#0C5A5D] hover:bg-[#0a484b] text-white py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-colors shadow-lg shadow-[#0C5A5D]/20 active:scale-95">
+                                    <div className="mt-4 pt-3 border-t border-gray-50 grid grid-cols-4 gap-1.5">
+                                        <button
+                                            onClick={(e) => { e.stopPropagation(); handleStartBooking(); }}
+                                            className="bg-[#0C5A5D] hover:bg-[#0a484b] text-white py-2 rounded-xl flex flex-col items-center justify-center gap-1 transition-all active:scale-95 shadow-sm shadow-[#0C5A5D]/10"
+                                        >
                                             <Icons.Calendar size={14} className="text-cyan-200" />
-                                            حجز موعد
+                                            <span className="text-[9px] font-bold">حجز</span>
                                         </button>
-                                        <button className="bg-white border border-[#0C5A5D] text-[#0C5A5D] hover:bg-[#0C5A5D]/5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-colors active:scale-95">
-                                            <Icons.Video size={14} />
-                                            استشارة
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setSearchQuery(facility.name);
+                                                setViewMode('doctors');
+                                            }}
+                                            className="bg-white border border-[#0C5A5D]/20 text-[#0C5A5D] hover:bg-[#0C5A5D]/5 py-2 rounded-xl flex flex-col items-center justify-center gap-1 transition-all active:scale-95"
+                                        >
+                                            <Icons.Stethoscope size={14} />
+                                            <span className="text-[9px] font-bold">استشارةعاجلة</span>
                                         </button>
-                                        <button className="bg-gray-50 text-gray-600 hover:bg-gray-100 border border-gray-100 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-colors active:scale-95">
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setSearchQuery(facility.name);
+                                                setViewMode('doctors');
+                                            }}
+                                            className="bg-white border border-[#0C5A5D]/20 text-[#0C5A5D] hover:bg-[#0C5A5D]/5 py-2 rounded-xl flex flex-col items-center justify-center gap-1 transition-all active:scale-95"
+                                        >
+                                            <Icons.Users size={14} />
+                                            <span className="text-[9px] font-bold">الأطباء</span>
+                                        </button>
+                                        <button className="bg-gray-50 text-gray-500 hover:bg-gray-100 border border-gray-100 py-2 rounded-xl flex flex-col items-center justify-center gap-1 transition-all active:scale-95">
                                             <Icons.MapPin size={14} />
-                                            اتجاه
+                                            <span className="text-[9px] font-bold">اتجاه</span>
                                         </button>
                                     </div>
                                 </div>
