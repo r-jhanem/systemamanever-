@@ -84,19 +84,11 @@ const MedicalNetwork: React.FC<MedicalNetworkProps> = ({ onBack }) => {
     // Regions List with Images
     const regions = [
         { id: 'الكل', name: 'جميع المناطق', country: 'SA', image: 'https://images.unsplash.com/photo-1580674285054-bed31e145f59?q=80&w=2070&auto=format&fit=crop' },
-        { id: 'الرياض', name: 'منطقة الرياض', country: 'SA', image: 'https://images.unsplash.com/photo-1586724230473-455648e1f57d?q=80&w=2070&auto=format&fit=crop' },
-        { id: 'المنطقة الشرقية', name: 'المنطقة الشرقية', country: 'SA', image: 'https://images.unsplash.com/photo-1628189835150-59a8523c9657?q=80&w=2070&auto=format&fit=crop' },
-        { id: 'مكة المكرمة', name: 'مكة المكرمة', country: 'SA', image: 'https://images.unsplash.com/photo-1542612140-1658b4317181?q=80&w=2069&auto=format&fit=crop' },
-        { id: 'المدينة المنورة', name: 'المدينة المنورة', country: 'SA', image: 'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=2070&auto=format&fit=crop' },
-        { id: 'القصيم', name: 'منطقة القصيم', country: 'SA', image: 'https://images.unsplash.com/photo-1551041777-ed07f99b57ad?q=80&w=1974&auto=format&fit=crop' },
-        { id: 'عسير', name: 'منطقة عسير', country: 'SA', image: 'https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?q=80&w=2070&auto=format&fit=crop' },
-        { id: 'تبوك', name: 'منطقة تبوك', country: 'SA', image: 'https://images.unsplash.com/photo-1621360841013-c7683c659ec6?q=80&w=2076&auto=format&fit=crop' },
-        { id: 'حائل', name: 'منطقة حائل', country: 'SA', image: 'https://images.unsplash.com/photo-1584102986423-c40af6096536?q=80&w=2070&auto=format&fit=crop' },
-        { id: 'الحدود الشمالية', name: 'الحدود الشمالية', country: 'SA', image: 'https://images.unsplash.com/photo-1629814496464-a6309852026f?q=80&w=1951&auto=format&fit=crop' },
-        { id: 'جازان', name: 'منطقة جازان', country: 'SA', image: 'https://images.unsplash.com/photo-1623253508112-920fdfbf6664?q=80&w=2069&auto=format&fit=crop' },
-        { id: 'نجران', name: 'منطقة نجران', country: 'SA', image: 'https://images.unsplash.com/photo-1623253508212-320c2cff4681?q=80&w=2069&auto=format&fit=crop' },
-        { id: 'الباحة', name: 'منطقة الباحة', country: 'SA', image: 'https://images.unsplash.com/photo-1623253508312-720fdfbf6664?q=80&w=2069&auto=format&fit=crop' },
-        { id: 'الجوف', name: 'منطقة الجوف', country: 'SA', image: 'https://images.unsplash.com/photo-1629814496165-8167e8167e81?q=80&w=1951&auto=format&fit=crop' },
+        { id: 'المنطقة الوسطى', name: 'المنطقة الوسطى', country: 'SA', image: 'https://takafulalarabia.com/resources/Gallery/141603029867_servers.png' },
+        { id: 'المنطقة الغربية', name: 'المنطقة الغربية', country: 'SA', image: 'https://takafulalarabia.com/resources/Gallery/31603029878_servers.png' },
+        { id: 'المنطقة الشرقية', name: 'المنطقة الشرقية', country: 'SA', image: 'https://takafulalarabia.com/resources/Gallery/461603029890_servers.png' },
+        { id: 'المنطقة الجنوبية', name: 'المنطقة الجنوبية', country: 'SA', image: 'https://takafulalarabia.com/resources/Gallery/971603029897_servers.png' },
+        { id: 'المنطقة الشمالية', name: 'المنطقة الشمالية', country: 'SA', image: 'https://takafulalarabia.com/resources/Gallery/651603029910_servers.png' },
         { id: 'إسطنبول', name: 'إسطنبول', country: 'TR', image: 'https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=2071&auto=format&fit=crop' },
         { id: 'أنقرة', name: 'أنقرة', country: 'TR', image: 'https://images.unsplash.com/photo-1542612140-1658b4317181?q=80&w=2069&auto=format&fit=crop' },
         { id: 'عمان', name: 'عمان', country: 'JO', image: 'https://images.unsplash.com/photo-1548115184-bc6544d06a58?q=80&w=2070&auto=format&fit=crop' },
@@ -104,13 +96,11 @@ const MedicalNetwork: React.FC<MedicalNetworkProps> = ({ onBack }) => {
 
     // Cities Data
     const citiesByRegion: { [key: string]: string[] } = {
+        'المنطقة الوسطى': ['الرياض', 'الخرج', 'الدرعية', 'المجمعة', 'الدوادمي', 'بريدة', 'عنيزة', 'الرس'],
+        'المنطقة الغربية': ['مكة المكرمة', 'جدة', 'الطائف', 'المدينة المنورة', 'ينبع', 'العلا'],
         'المنطقة الشرقية': ['الدمام', 'الخبر', 'الجبيل', 'الأحساء', 'القطيف', 'حفر الباطن', 'الخفجي', 'راس تنورة'],
-        'الرياض': ['الرياض', 'الخرج', 'الدرعية', 'المجمعة', 'الدوادمي'],
-        'مكة المكرمة': ['مكة المكرمة', 'جدة', 'الطائف', 'القنفذة'],
-        'المدينة المنورة': ['المدينة المنورة', 'ينبع', 'العلا'],
-        'القصيم': ['بريدة', 'عنيزة', 'الرس'],
-        'عسير': ['أبها', 'خميس مشيط', 'بيشة'],
-        'تبوك': ['تبوك', 'أملج', 'ضبا'],
+        'المنطقة الجنوبية': ['أبها', 'خميس مشيط', 'بيشة', 'جازان', 'نجران', 'الباحة'],
+        'المنطقة الشمالية': ['تبوك', 'أملج', 'ضبا', 'حائل', 'الحدود الشمالية', 'الجوف'],
     };
 
     // Category Filters
