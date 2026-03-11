@@ -85,7 +85,7 @@ const HealthNetwork: React.FC<HealthNetworkProps> = ({ onBack }) => {
     // Category Filters (Health Facilities)
     const filters = [
         { id: 'all', label: 'الكل', icon: <Icons.Grid size={16} /> },
-        { id: 'beauty_center', label: 'مراكز تجميل', icon: <Icons.Sparkles size={16} /> },
+        { id: 'beauty_center', label: 'قسم التجميل والليزر', icon: <Icons.Sparkles size={16} /> },
         { id: 'hair_salon', label: 'صالونات', icon: <Icons.Scissors size={16} /> },
         { id: 'gym', label: 'نوادي رياضية', icon: <Icons.Dumbbell size={16} /> },
         { id: 'spa', label: 'سبا ومساج', icon: <Icons.Smile size={16} /> },
@@ -96,7 +96,7 @@ const HealthNetwork: React.FC<HealthNetworkProps> = ({ onBack }) => {
     // Professional Specialties Filters
     const professionalFilters = [
         { id: 'all', label: 'الكل', icon: <Icons.Grid size={16} /> },
-        { id: 'cosmetologist', label: 'تجميل', icon: <Icons.Sparkles size={16} /> },
+        { id: 'cosmetologist', label: 'قسم التجميل والليزر', icon: <Icons.Sparkles size={16} /> },
         { id: 'hair_stylist', label: 'تصفيف شعر', icon: <Icons.Scissors size={16} /> },
         { id: 'trainer', label: 'مدرب شخصي', icon: <Icons.Dumbbell size={16} /> },
         { id: 'therapist', label: 'علاج طبيعي', icon: <Icons.Activity size={16} /> },

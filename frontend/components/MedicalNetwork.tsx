@@ -119,9 +119,9 @@ const MedicalNetwork: React.FC<MedicalNetworkProps> = ({ onBack }) => {
         { id: 'hospitals', label: 'مستشفيات', icon: <Icons.Building2 size={16} /> },
         { id: 'centers', label: 'مراكز طبية', icon: <Icons.Activity size={16} /> },
         { id: 'dental', label: 'أسنان', icon: <Icons.Smile size={16} /> },
-        { id: 'physio', label: 'علاج طبيعي', icon: <Icons.HeartPulse size={16} /> },
+        { id: 'physio', label: 'العلاج الطبيعي والتأهيل', icon: <Icons.HeartPulse size={16} /> },
+        { id: 'radiology', label: 'قسم الأشعة', icon: <Icons.Activity size={16} /> },
         { id: 'pharmacy', label: 'صيدليات', icon: <Icons.Pill size={16} /> },
-        { id: 'cosmetic', label: 'تجميل وجلدية', icon: <Icons.Sparkles size={16} /> },
     ];
 
     // Doctor Specialties Filters
@@ -129,12 +129,13 @@ const MedicalNetwork: React.FC<MedicalNetworkProps> = ({ onBack }) => {
         { id: 'all', label: 'الكل', icon: <Icons.Grid size={16} /> },
         { id: 'cardio', label: 'قلب وأوعية', icon: <Icons.HeartPulse size={16} /> },
         { id: 'dental', label: 'أسنان', icon: <Icons.Smile size={16} /> },
-        { id: 'derma', label: 'جلدية', icon: <Icons.Sparkles size={16} /> },
         { id: 'pediatric', label: 'أطفال', icon: <Icons.User size={16} /> },
         { id: 'internal', label: 'باطنة', icon: <Icons.Activity size={16} /> },
         { id: 'ent', label: 'أنف وأذن', icon: <Icons.Mic size={16} /> },
         { id: 'eyes', label: 'عيون', icon: <Icons.Eye size={16} /> },
         { id: 'ortho', label: 'عظام', icon: <Icons.Bone size={16} /> },
+        { id: 'physio', label: 'العلاج الطبيعي والتأهيل', icon: <Icons.Activity size={16} /> },
+        { id: 'radiology', label: 'قسم الأشعة', icon: <Icons.Activity size={16} /> },
     ];
 
     // Mock Doctors Data
